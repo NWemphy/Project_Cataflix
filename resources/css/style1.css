@@ -1,14 +1,16 @@
 /* cataflix.css */
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color : black;
-    background-color: #000;
+    background-color: #111;
+    font-family: 'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
     margin: 0;
     padding: 0;
 }
 
 .navbar {
+    background-color: #000 !important;
+    border-bottom: 1px solid #333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     transition: background-color 0.3s ease;
 }
@@ -79,6 +81,23 @@ h1, h2, h3, h4, h5 {
 
 .social-media a:hover {
     color: #E50914;
+}
+
+/* Button Light Override */
+.btn-light {
+    background-color: #fff;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Warning Text Override */
+.text-warning {
+    color: #FFD700 !important;
+}
+
+/* Global image styling */
+img {
+    object-fit: cover;
 }
 
 /* Responsive behavior */
