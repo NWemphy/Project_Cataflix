@@ -209,7 +209,7 @@
   <footer class="text-white">
     <div class="container">
       <p>Email : support@cataflix.com</p>
-      <p>Contact : +62 8080 8080</p>
+      <p>Contact : +62 8214418 3516</p>
       <div class="social-icons">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
