@@ -18,18 +18,18 @@ Route::get('/', function () {
 Route::resource('pengguna', PenggunaController::class);
 Route::resource('home', PenggunaController::class);
 
-// Halaman registrasi
+// Registrasi
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-// Halaman login
+// Login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
 // Logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Dashboard (hanya bisa diakses setelah login)
+// Dashboard (login only)
 Route::get('/dashboard', function () {
     $films = Film::all();
     return view('dashboard', ['films' => $films]);
@@ -37,26 +37,12 @@ Route::get('/dashboard', function () {
 
 // Detail film
 Route::get('/film/{id}', function ($id) {
-    $film = Film::find($id); // pakai Eloquent find
-
+    $film = Film::find($id);
     if (!$film) {
         abort(404);
     }
-
     return view('film-detail', ['film' => $film]);
 })->middleware('auth')->name('film.detail');
 
-Route::get('/search', function (\Illuminate\Http\Request $request) {
-    $query = strtolower($request->input('query'));
-    $films = FilmData::all();
-
-    // Filter film berdasarkan keyword
-    $filtered = array_filter($films, function ($film) use ($query) {
-        return str_contains(strtolower($film['title']), $query);
-    });
-
-    return view('search_results', ['films' => $filtered, 'query' => $request->input('query')]);
-});
-
+// Route search (gunakan controller)
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-

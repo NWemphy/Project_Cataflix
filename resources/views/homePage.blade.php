@@ -98,9 +98,12 @@
       <a class="navbar-brand" href="#">
         <span>Cata<span class="flix">flix</span></span>
       </a>
-      <form class="form-inline mx-auto search-form" method="GET" action="{{ route('search') }}">
-  <input class="form-control search-bar" name="query" type="search" placeholder="Search" aria-label="Search" />
-</form>
+      <form method="GET" action="{{ route('search') }}" class="form-inline mx-auto search-form">
+        <input name="query" type="search" class="form-control search-bar" placeholder="Search" />
+      </form>
+      
+
+
       <div class="ml-auto">
         <a class="btn btn-danger btn-sm mr-2">Trending Now</a>
         <a href="/login" class="btn btn-outline-light btn-sm">Log in</a>

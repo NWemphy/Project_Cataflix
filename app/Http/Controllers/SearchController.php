@@ -12,10 +12,13 @@ class SearchController extends Controller
         $query = strtolower($request->input('query'));
         $films = FilmData::all();
 
-        $results = array_filter($films, function ($film) use ($query) {
+        $filtered = array_filter($films, function ($film) use ($query) {
             return str_contains(strtolower($film['title']), $query);
         });
 
-        return view('search_results', ['results' => $results, 'query' => $request->input('query')]);
+        return view('film.search_result', [
+            'films' => $filtered,
+            'query' => $request->input('query'),
+        ]);
     }
 }
