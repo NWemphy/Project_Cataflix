@@ -6,6 +6,8 @@ use App\Models\Film;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SearchController;
+use App\Helpers\FilmData;
 
 // Halaman utama
 Route::get('/', function () {
@@ -43,3 +45,18 @@ Route::get('/film/{id}', function ($id) {
 
     return view('film-detail', ['film' => $film]);
 })->middleware('auth')->name('film.detail');
+
+Route::get('/search', function (\Illuminate\Http\Request $request) {
+    $query = strtolower($request->input('query'));
+    $films = FilmData::all();
+
+    // Filter film berdasarkan keyword
+    $filtered = array_filter($films, function ($film) use ($query) {
+        return str_contains(strtolower($film['title']), $query);
+    });
+
+    return view('search_results', ['films' => $filtered, 'query' => $request->input('query')]);
+});
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
