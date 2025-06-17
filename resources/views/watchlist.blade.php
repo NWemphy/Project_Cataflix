@@ -33,3 +33,14 @@
                     >
                         + Add to Watchlist
                     </button>
+
+                    {{-- Tombol Watch Trailer --}}
+            <a 
+                href="{{ route('film.trailer', ['id' => $loop->index + 1]) }}" 
+                class="inline-block mt-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1 rounded"
+            >
+                ▶ Watch Trailer
+            </a>
+        </div>
+    </div>
+@endforeach
