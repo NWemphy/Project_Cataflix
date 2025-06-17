@@ -1,0 +1,59 @@
+[33mcommit 9917b1633c9cdf1b50dd93d648f09f2a94e578da[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mhaney[m[33m, [m[1;31morigin/haney[m[33m, [m[1;31morigin/feature/watchlist-ui[m[33m, [m[1;32mfeature/watchlist-ui[m[33m)[m
+Author: unknown <tyaasngrni@gmail.com>
+Date:   Wed Jun 18 00:30:05 2025 +0700
+
+    membuat kartu halaman watchlist UI
+
+[33mcommit 388b188b235828450f7eaf8296e61953dad73e5f[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: e261988 e32e403
+Author: Norbertus Wempy Junior Keraf <119657018+NWemphy@users.noreply.github.com>
+Date:   Mon Jun 9 03:05:36 2025 +0700
+
+    Merge pull request #2 from NWemphy/develop_norbert
+    
+    modifikasi homepage, create table watch histories, watchlist, dan ratings
+
+[33mcommit e32e40305152c42e9b4ef2ee470003e9c4e5d3df[m
+Author: NWemphy <keraf16dalopez@gmail.com>
+Date:   Mon Jun 9 03:02:22 2025 +0700
+
+    modifikasi homepage, create table watch histories, watchlist, dan ratings
+
+[33mcommit e2619887127885a88504d2ed4fb98e2a3cba8c34[m
+Merge: a7aa197 5fff06f
+Author: Norbertus Wempy Junior Keraf <119657018+NWemphy@users.noreply.github.com>
+Date:   Sat Jun 7 22:08:51 2025 +0700
+
+    Merge pull request #1 from NWemphy/develop_norbert
+    
+    penambahan kelas model film, controller login, controller register, view login, register, film-detail
+
+[33mcommit 5fff06f8545b787edb8317319eeb4983efc2d66a[m
+Author: NWemphy <keraf16dalopez@gmail.com>
+Date:   Sat Jun 7 22:02:34 2025 +0700
+
+    penambahan kelas model film, controller login, controller register, dan views login,register, dashboard, film-detail
+
+[33mcommit a7aa1977e6f3f389520f0b9307b8806a1c0d5bb8[m
+Author: NWemphy <keraf16dalopez@gmail.com>
+Date:   Sat Jun 7 03:27:51 2025 +0700
+
+    perubahan dan penambahan di routes, homepage, dan css
+
+[33mcommit 4688e6d027fbf4607af9e1d28bb425012b2e6e3e[m[33m ([m[1;31morigin/develop[m[33m)[m
+Author: NWemphy <keraf16dalopez@gmail.com>
+Date:   Thu May 29 23:12:56 2025 +0700
+
+    Menambahkan kelas model pengguna, pengguna controller, dan view pengguna
+
+[33mcommit 8d972bcc552b7cea79b4320a708925f5782e90af[m
+Author: NWemphy <keraf16dalopez@gmail.com>
+Date:   Tue May 27 23:55:59 2025 +0700
+
+    menambahkan tabel pengguna model
+
+[33mcommit fae04d28bc1a3dd70601594d340eeb67b246b4b0[m
+Author: NWemphy <keraf16dalopez@gmail.com>
+Date:   Tue May 27 22:59:04 2025 +0700
+
+    initial commit
