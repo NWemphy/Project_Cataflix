@@ -1,0 +1,120 @@
+/* cataflix.css */
+
+body {
+    background-color: #111;
+    font-family: 'Helvetica Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #000 !important;
+    border-bottom: 1px solid #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    transition: background-color 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: #000 !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: bold;
+}
+
+.info {
+    padding: 60px 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    margin-top: 100px;
+}
+
+.announcement {
+    font-size: 18px;
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+.membership-options {
+    margin-top: 40px;
+}
+
+.membership-options .col {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.membership-options .col:hover {
+    transform: scale(1.05);
+    background-color: #E50914;
+    color: white;
+}
+
+.menu .btn {
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+    transition: all 0.3s ease;
+}
+
+.menu .btn:hover {
+    background-color: #b00610;
+    border-color: #b00610;
+    color: white;
+}
+
+.social-media a {
+    font-size: 24px;
+    margin: 0 10px;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.social-media a:hover {
+    color: #E50914;
+}
+
+/* Button Light Override */
+.btn-light {
+    background-color: #fff;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Warning Text Override */
+.text-warning {
+    color: #FFD700 !important;
+}
+
+/* Global image styling */
+img {
+    object-fit: cover;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .navbar h1 {
+        font-size: 20px;
+    }
+
+    .info, .announcement, .membership-options {
+        text-align: center;
+    }
+
+    .membership-options .col {
+        margin-bottom: 20px;
+    }
+
+    .menu .btn {
+        width: 100%;
+    }
+}
