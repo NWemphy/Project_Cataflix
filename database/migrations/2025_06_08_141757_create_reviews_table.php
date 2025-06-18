@@ -6,43 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('pengguna')->onDelete('cascade');
-            $table->foreignId('movie_id')->constrained('film')->onDelete('cascade');
-            $table->unsignedTinyInteger('rating'); // 1-5 misalnya
-            $table->text('review')->nullable();
-            $table->timestamps();
-        
-            $table->unique(['user_id', 'movie_id']); // satu review per user per film
-        });
-        
-    }
 
-    public function up() 
+    public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('film_id');
-            $table->tinyInteger('rating');
-            $table->text('content');
+            $table->tinyInteger('rating'); // nilai rating (misalnya 1-5)
+            $table->text('content'); // isi review
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('film_id')->references('id')->on('films')->onDelete('cascade');
+            $table->unique(['user_id', 'film_id']); // 1 review per user per film
         });
     }
 
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('reviews');
