@@ -6,7 +6,8 @@ use App\Models\Film;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\FilmController; 
+use App\Http\Controllers\FilmController;
+use App\Http\Controllers\SearchController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -60,3 +61,8 @@ Route::get('/trailer/{id}', function ($id) {
 Route::get('/film/{id}/reviews', [FilmController::class, 'showReviews'])
     ->middleware('auth')
     ->name('film.reviews');
+
+// Route pencarian film + riwayat
+Route::get('/search', [SearchController::class, 'search'])
+    ->middleware('auth')
+    ->name('search');
