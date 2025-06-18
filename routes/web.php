@@ -6,6 +6,7 @@ use App\Models\Film;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FilmController; 
 
 // Halaman utama
 Route::get('/', function () {
@@ -43,3 +44,19 @@ Route::get('/film/{id}', function ($id) {
 
     return view('film-detail', ['film' => $film]);
 })->middleware('auth')->name('film.detail');
+
+// Halaman trailer film (video autoplay)
+Route::get('/trailer/{id}', function ($id) {
+    $film = Film::find($id);
+
+    if (!$film) {
+        abort(404);
+    }
+
+    return view('trailer', ['film' => $film]);
+})->middleware('auth')->name('film.trailer');
+
+// Halaman review per film
+Route::get('/film/{id}/reviews', [FilmController::class, 'showReviews'])
+    ->middleware('auth')
+    ->name('film.reviews');

@@ -15,4 +15,13 @@ class Review extends Model
     public function movie() {
         return $this->belongsTo(Film::class);
     }
+
+    public function film() {
+        return $this->belongsTo(\App\Models\Film::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
 }

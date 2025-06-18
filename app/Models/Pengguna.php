@@ -42,4 +42,8 @@ class Pengguna extends Authenticatable
         return $this->hasMany(Review::class);
     }
     
+    public function reviews() {
+        return $this->hasMany(\App\Models\Review::class);
+    }
+
 }

@@ -30,5 +30,8 @@ class Film extends Model
         return $this->hasMany(Review::class);
     }
     
-    
+    public function reviews() {
+        return $this->hasMany(\App\Models\Review::class);
+    }
+
 }
