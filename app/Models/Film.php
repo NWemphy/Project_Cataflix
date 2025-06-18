@@ -3,13 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-
-class Film extends Model
-{
-    protected $fillable = ['title', 'genre', 'release_year', 'rating', 'description'];
-}
-=======
 use App\Models\WatchHistories;
 
 class Film extends Model
@@ -39,4 +32,3 @@ class Film extends Model
     
     
 }
->>>>>>> 388b188b235828450f7eaf8296e61953dad73e5f
