@@ -1,8 +1,10 @@
+<?php
+
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Film;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
@@ -15,14 +17,23 @@ class ReviewController extends Controller
             'review' => 'required|string|max:1000',
         ]);
 
+        $film = Film ::findOrFail ($movie_id)
+
+        $existingReview = Review::where ('movie_Id', $movie_id)
+                                ->where ('user_id', Auth::id())
+                                ->first();
+        if ($existingReview) {
+            return redirect ()->back()->with('error', 'Anda sudah memberikan review.');
+        }
+
         Review::create([
-            'user_id' => Auth::id(),
             'movie_id' => $movie_id,
+            'user_id' => Auth::id(),
             'rating' => $request->rating,
-            'review' => $request->review,
+            'comment' => $request->comment,
         ]);
 
-        return redirect()->route('films.show', $movie_id)->with('success', 'Review berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Review berhasil ditambahkan.');
     }
 
     // Menampilkan form edit review
@@ -66,12 +77,11 @@ class ReviewController extends Controller
         $review = Review::findOrFail($id);
 
         if ($review->user_id !== Auth::id()) {
-            abort(403);
+            return redirect()->back()->with('error', 'Anda tidak bisa menghapus review ini.');
         }
 
-        $movie_id = $review->movie_id;
         $review->delete();
 
-        return redirect()->route('films.show', $movie_id)->with('success', 'Review berhasil dihapus.');
+        return redirect()->back()->with('success', 'Review berhasil dihapus.');
     }
 }
