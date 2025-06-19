@@ -1,56 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register - Cataflix</title>
+@extends('layout.app')
 
-    <!-- Bootstrap 5 CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <div class="container mt-5" style="max-width: 500px;">
-        <h2 class="mb-4 text-center">Daftar Akun Baru</h2>
+@section('content')
 
-        <!-- Tampilkan error validasi -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+<style>
+    html, body {
+        height: 100%;
+        background-color: #000 !important;
+        margin: 0;
+        padding: 0;
+    }
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+    .navbar-brand span {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Nama Lengkap</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required autofocus />
-            </div>
+    .flix {
+        color: #007bff;
+    }
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Alamat Email</label>
-                <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required />
-            </div>
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: row;
+        color: #fff;
+    }
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required />
-            </div>
+    .login-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 8%;
+        padding-right: 5%;
+    }
 
-            <div class="mb-3">
-                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required />
-            </div>
+    .back-link {
+        font-size: 1rem;
+        color: #fff;
+        text-decoration: none;
+        position: absolute;
+        top: 100px;
+        left: 30px;
+    }
 
-            <button type="submit" class="btn btn-primary w-100">Daftar</button>
-        </form>
+    .login-left-title {
+        font-size: 5rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .login-right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #000;
+        padding: 2rem;
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .btn-login {
+        background-color: #0056ff;
+        color: #fff;
+        letter-spacing: 2px;
+    }
+
+    .btn-login:hover {
+        background-color: #0041c2;
+    }
+
+    @media (max-width: 768px) {
+        .login-wrapper {
+            flex-direction: column;
+        }
+
+        .login-left {
+            align-items: center;
+            padding: 3rem 1rem;
+        }
+
+        .login-left-title {
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        .back-link {
+            position: static;
+            margin-bottom: 1rem;
+            align-self: flex-start;
+        }
+    }
+</style>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: #141414;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <span>Cata<span class="flix">flix</span></span>
+        </a>
     </div>
+</nav>
 
-    <!-- Bootstrap 5 JS Bundle (optional untuk komponen interaktif) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Back link -->
+<a href="{{ url()->previous() }}" class="back-link">← Back</a>
+
+<!-- Main Register Content -->
+<div class="login-wrapper">
+    <div class="login-left">
+        <div class="login-left-title">
+            Join<br>Cataflix<br>Now
+        </div>
+    </div>
+    <div class="login-right">
+        <div class="login-box">
+            <h2 class="text-center mb-4"><strong>Cata</strong><span class="text-primary">flix</span></h2>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+
+                <div class="mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Nama Lengkap" value="{{ old('name') }}" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Alamat Email" value="{{ old('email') }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password" required>
+                </div>
+
+                <button type="submit" class="btn btn-login w-100 mb-3">DAFTAR</button>
+
+                <p class="text-center text-white-50 mb-1">
+                    Sudah punya akun? <a href="{{ route('login') }}" class="text-primary">Login di sini</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endsection

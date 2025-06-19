@@ -1,49 +1,61 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container mt-4">
 
-    {{-- Bagian atas: gambar besar + trailer --}}
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        padding-top: 80px;
+    }
+
+    .film-container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .film-poster {
+        width: 100%;
+        max-width: 400px;
+        height: 600px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .film-info h2 {
+        font-weight: bold;
+    }
+
+    .film-info p {
+        margin-bottom: 8px;
+    }
+
+    .btn-back {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="film-container">
     <div class="row">
-        <div class="col-md-8">
-            <img src="{{ $film->poster }}" alt="{{ $film->title }}" class="img-fluid rounded shadow-sm" />
+        <!-- Poster -->
+        <div class="col-md-5 text-center mb-4 mb-md-0">
+            <img src="{{ asset($film['poster']) }}" alt="{{ $film['title'] }}" class="film-poster img-fluid shadow" />
         </div>
-        <div class="col-md-4">
-            <h2 class="mb-3">{{ $film->title }}</h2>
 
-            {{-- Rating --}}
-            <p>
-                @for($i = 0; $i < floor($film->rating); $i++)
-                    <span style="color: gold">★</span>
-                @endfor
-                <span class="text-muted">{{ number_format($film->rating, 1) }}/10</span>
-            </p>
+        <!-- Detail Info -->
+        <div class="col-md-7 film-info">
+            <h2 class="text-primary">{{ $film['title'] }}</h2>
+            <p><strong>Tahun:</strong> {{ $film['year'] }}</p>
+            <p><strong>Durasi:</strong> {{ $film['duration'] }} menit</p>
+            <p><strong>Sutradara:</strong> {{ $film['director'] }}</p>
 
-            {{-- Tombol Add to Watchlist --}}
-            <button class="btn btn-outline-light btn-sm mb-2">+ Add to Watchlist</button>
+            <h5 class="mt-4 text-warning">Deskripsi</h5>
+            <p>{{ $film['description'] }}</p>
 
-            {{-- Tombol Review --}}
-            <a href="/film/{{ $film->id }}/reviews" class="btn btn-warning">Review</a>
-
-            {{-- Tombol Trailer --}}
-            <a href="{{ route('film.trailer', $film->id) }}" class="btn btn-danger btn-sm mb-2">▶ Watch Trailer</a>
-
-            {{-- Informasi tambahan --}}
-            <p class="mt-3"><strong>Genre:</strong> {{ $film->genre ?? 'N/A' }}</p>
-            <p><strong>Tahun:</strong> {{ $film->year }}</p>
-            <p><strong>Durasi:</strong> {{ $film->duration }}</p>
-            <p><strong>Sutradara:</strong> {{ $film->director }}</p>
+            <a href="{{ route('dashboard') }}" class="btn btn-outline-light btn-sm btn-back">← Kembali ke Dashboard</a>
         </div>
     </div>
-
-    {{-- Sinopsis --}}
-    <div class="mt-4">
-        <h4>Synopsis</h4>
-        <p>{{ $film->description }}</p>
-    </div>
-
-    {{-- Tombol kembali --}}
-    <a href="{{ route('dashboard') }}" class="btn btn-dark mt-4">← Kembali ke Dashboard</a>
-
 </div>
+
 @endsection

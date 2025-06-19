@@ -26,12 +26,12 @@
 
     .search-form {
       width: 500px;
-      max-width: 90vw; /* responsive di layar kecil */
+      max-width: 90vw;
     }
 
     .search-bar {
-      width: 100%; /* input memenuhi form */
-      max-width: none; /* hilangkan max-width lama */
+      width: 100%;
+      max-width: none;
     }
 
     .movie-hero {
@@ -45,8 +45,8 @@
       border-radius: 10px;
       width: 100%;
       max-width: 400px;
-      height: 600px; /* atau tinggi yang diinginkan */
-      object-fit: cover; /* agar gambar tetap proporsional */
+      height: 600px;
+      object-fit: cover;
     }
 
     .movie-description {
@@ -98,11 +98,13 @@
       <a class="navbar-brand" href="#">
         <span>Cata<span class="flix">flix</span></span>
       </a>
-      <form class="form-inline mx-auto search-form">
-        <input class="form-control search-bar" type="search" placeholder="Search" aria-label="Search" />
+      <form method="GET" action="{{ route('search') }}" class="form-inline mx-auto search-form">
+        <input name="query" type="search" class="form-control search-bar" placeholder="Search" />
       </form>
+      
+
+
       <div class="ml-auto">
-        <a href="/watchlist" class="btn btn-outline-light btn-sm mr-2">Watchlist</a>
         <a class="btn btn-danger btn-sm mr-2">Trending Now</a>
         <a href="/login" class="btn btn-outline-light btn-sm">Log in</a>
       </div>
@@ -127,7 +129,7 @@
                 <i class="fas fa-star"></i><i class="fas fa-star"></i>
                 <i class="fas fa-star-half-alt"></i> 8.2/10
               </p>
-              <button class="btn btn-watchlist"><i class="fas fa-plus"></i> Add to Watchlist</button>
+              <a href="/login" class="btn btn-watchlist"><i class="fas fa-plus"></i> Add to Watchlist</a>
               <p><strong>Review:</strong> 2025 | Family</p>
               <h5 class="text-warning mt-3">Synopsis</h5>
               <p>Seorang gadis Hawaii bernama Lilo mengadopsi makhluk asing yang menyamar sebagai anjing.</p>
@@ -149,7 +151,7 @@
                 <i class="fas fa-star"></i><i class="fas fa-star"></i>
                 <i class="fas fa-star"></i><i class="fas fa-star"></i> 9.0/10
               </p>
-              <button class="btn btn-watchlist"><i class="fas fa-plus"></i> Add to Watchlist</button>
+              <a href="/login" class="btn btn-watchlist"><i class="fas fa-plus"></i> Add to Watchlist</a>
               <p><strong>Review:</strong> 2025 | Animation</p>
               <h5 class="text-warning mt-3">Synopsis</h5>
               <p>Po kembali untuk petualangan kungfu terbaru yang epik melawan musuh baru yang misterius.</p>
@@ -171,7 +173,7 @@
                 <i class="fas fa-star"></i><i class="fas fa-star"></i>
                 <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> 7.8/10
               </p>
-              <button class="btn btn-watchlist"><i class="fas fa-plus"></i> Add to Watchlist</button>
+              <a href="/login" class="btn btn-watchlist"><i class="fas fa-plus"></i> Add to Watchlist</a>
               <p><strong>Review:</strong> 2024 | Fantasy</p>
               <h5 class="text-warning mt-3">Synopsis</h5>
               <p>Sebuah kota di mana elemen hidup berdampingan, hingga cinta muncul antara air dan api.</p>
@@ -201,7 +203,6 @@
       <div class="col-md-3 col-6">
         <img src="<?= asset('gambar/the_croods.jpeg') ?>" alt="The Croods" />
       </div>
-      <!-- Tambahkan lagi jika ada film baru -->
     </div>
   </div>
 
@@ -209,7 +210,7 @@
   <footer class="text-white">
     <div class="container">
       <p>Email : support@cataflix.com</p>
-      <p>Contact : +62 8080 8080</p>
+      <p>Contact : +62 8214418 3516</p>
       <div class="social-icons">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
