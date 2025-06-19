@@ -19,3 +19,18 @@
         <p>Kamu sudah mereview film ini.</p>
     @endif
 @endauth
+
+@auth
+    @if (auth()->user()->watchlist->contains($film->id))
+        <form method="POST" action="{{ route('watchlist.destroy', $film->id) }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Hapus dari Watchlist</button>
+        </form>
+    @else
+        <form method="POST" action="{{ route('watchlist.store', $film->id) }}">
+            @csrf
+            <button type="submit">Tambah ke Watchlist</button>
+        </form>
+    @endif
+@endauth
