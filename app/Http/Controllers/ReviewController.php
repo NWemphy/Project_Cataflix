@@ -10,24 +10,25 @@ use Illuminate\Support\Facades\Auth;
 class ReviewController extends Controller
 {
     // Menyimpan review baru
-    public function store(Request $request, $movie_id)
+    public function store(Request $request, $filmId)
     {
+        $existingReview = Review::where('film_id', $filmId)
+                                ->where('user_id', Auth::id())
+                                ->first();
+        
+        if ($existingReview) {
+            return redirect()->back()->with('error', 'Anda sudah memberikan review.');
+        }
+        
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
-            'review' => 'required|string|max:1000',
+            'comment' => 'required|string|max:1000', // konsisten pakai 'comment'
         ]);
 
-        $film = Film ::findOrFail ($movie_id)
-
-        $existingReview = Review::where ('movie_Id', $movie_id)
-                                ->where ('user_id', Auth::id())
-                                ->first();
-        if ($existingReview) {
-            return redirect ()->back()->with('error', 'Anda sudah memberikan review.');
-        }
+        $film = Film::findOrFail($filmId); // ← titik koma DITAMBAHKAN
 
         Review::create([
-            'movie_id' => $movie_id,
+            'film_id' => $film->id, // ← gunakan 'film_id', bukan movie_id
             'user_id' => Auth::id(),
             'rating' => $request->rating,
             'comment' => $request->comment,
@@ -41,7 +42,6 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
 
-        // Opsional: pastikan user hanya bisa edit review miliknya
         if ($review->user_id !== Auth::id()) {
             abort(403);
         }
@@ -60,15 +60,16 @@ class ReviewController extends Controller
 
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
-            'review' => 'required|string|max:1000',
+            'comment' => 'required|string|max:1000',
         ]);
 
         $review->update([
             'rating' => $request->rating,
-            'review' => $request->review,
+            'comment' => $request->comment,
         ]);
 
-        return redirect()->route('films.show', $review->movie_id)->with('success', 'Review berhasil diperbarui.');
+        return redirect()->route('films.show', $review->film_id)
+                         ->with('success', 'Review berhasil diperbarui.');
     }
 
     // Menghapus review
