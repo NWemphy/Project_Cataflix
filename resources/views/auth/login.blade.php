@@ -122,7 +122,9 @@
                     <a href="#" class="text-white-50 small">Forget Password?</a>
                 </div>
                 <button type="submit" class="btn btn-login w-100 mb-3">LOGIN</button>
-                <p class="text-center text-white-50 mb-1">Belum punya akun?</p>
+                <p class="text-center text-white-50 mb-1">
+                    Belum punya akun? <a href="{{ route('register') }}" class="text-primary">Daftar di sini</a>
+                </p>                
                 <p class="text-center text-white-50">Or sign up with</p>
                 <div class="d-flex justify-content-center gap-3 social-btns">
                     <button type="button" class="btn btn-outline-light"><i class="bi bi-google"></i></button>
