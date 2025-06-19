@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('content'); // isi review
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('film_id')->references('id')->on('films')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('pengguna')->onDelete('cascade');
+            $table->foreign('film_id')->references('id')->on('film')->onDelete('cascade');
             $table->unique(['user_id', 'film_id']); // 1 review per user per film
         });
     }
