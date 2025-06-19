@@ -7,8 +7,6 @@ use Illuminate\Notifications\Notifiable;
 
 class Pengguna extends Authenticatable
 {
-    use Notifiable;
-
     protected $table = 'pengguna';
 
     protected $fillable = [
@@ -21,7 +19,7 @@ class Pengguna extends Authenticatable
     ];
 
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token',
     ];
 
@@ -30,15 +28,18 @@ class Pengguna extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function watchHistories() {
+    public function watchHistories()
+    {
         return $this->hasMany(WatchHistories::class);
     }
-    
-    public function watchlists() {
+
+    public function watchlists()
+    {
         return $this->hasMany(Watchlist::class);
     }
-    
-    public function reviews() {
+
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 }
