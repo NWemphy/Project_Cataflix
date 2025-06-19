@@ -13,9 +13,9 @@ class PenggunaSeeder extends Seeder
         DB::table('pengguna')->insert([
             'name' => 'admin',
             'email' => 'admin@contoh.com',
-            'password' => Hash::make('admin_p4ss'), // Enkripsi password
+            'password' => Hash::make('admin_p4ss'),
             'role' => 'admin',
-            'avatar' => 'avatar-default.png', // path ke file avatar (misal: public/images/avatar-default.png)
+            'avatar' => 'avatar-default.png',
         ]);
     }
 }

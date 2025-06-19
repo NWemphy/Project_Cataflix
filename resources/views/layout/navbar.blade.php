@@ -25,7 +25,7 @@
 
     <div class="container-fluid px-4">
         <a class="navbar-brand" href="{{ route('films.index') }}">
-            <span>Cata<span class="flix">flix</span></span> Admin
+            <span>Cata<span class="flix">flix</span></span>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">

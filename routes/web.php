@@ -74,4 +74,16 @@ Route::resource('home', PenggunaController::class); // Jika memang beda, jika ti
 // =====================
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-Route::resource('films', FilmController::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::group([
+        'middleware' => function ($request, $next) {
+            if (optional(Auth::user())->role === 'admin') {
+                return $next($request);
+            }
+            abort(403, 'Akses ditolak.');
+        }
+    ], function () {
+        Route::resource('films', FilmController::class);
+    });
+});
