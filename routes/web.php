@@ -8,6 +8,9 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\WatchlistController;
+
 
 // =====================
 // Halaman Utama (Public)
@@ -47,6 +50,16 @@ Route::middleware('auth')->group(function () {
         }
         return view('film-detail', ['film' => $film]);
     })->name('film.detail');
+
+// REVIEW
+Route::post('/films/{film}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->middleware('auth')->name('reviews.destroy');
+
+// WATCHLIST
+Route::get('/watchlist', [WatchlistController::class, 'index'])->middleware('auth')->name('watchlist.index');
+Route::post('/watchlist/{film}', [WatchlistController::class, 'store'])->middleware('auth')->name('watchlist.store');
+Route::delete('/watchlist/{id}', [WatchlistController::class, 'destroy'])->middleware('auth')->name('watchlist.destroy');
+
 });
 
 // =====================

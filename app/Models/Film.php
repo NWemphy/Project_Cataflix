@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\WatchHistories;
+//use App\Models\Film;
 
 class Film extends Model
 {
@@ -30,3 +31,13 @@ class Film extends Model
         return $this->hasMany(Review::class);
     }
 }
+
+// class FilmController extends Controller
+// {
+//     public function show($id)
+//     {
+//         $film = Film::with(['watchlists', 'reviews.user'])->findOrFail($id);
+
+//         return view('films.show', compact('film'));
+//     }
+// }

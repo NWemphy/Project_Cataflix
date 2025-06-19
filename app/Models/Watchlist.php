@@ -15,5 +15,6 @@ class Watchlist extends Model
     public function movie() {
         return $this->belongsTo(Film::class);
     }
+
 }
 
