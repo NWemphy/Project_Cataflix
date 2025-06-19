@@ -46,8 +46,4 @@ class Pengguna extends Authenticatable
         return $this->hasMany(\App\Models\Review::class);
     }
 
-    public function searchHistories() {
-        return $this->hasMany(SearchHistory::class);
-    }
-
 }
