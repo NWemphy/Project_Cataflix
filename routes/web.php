@@ -43,3 +43,11 @@ Route::get('/film/{id}', function ($id) {
 
     return view('film-detail', ['film' => $film]);
 })->middleware('auth')->name('film.detail');
+
+//Review film
+Route::middleware(['auth'])->group(function () {
+    Route::post('/films/{movie}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+});
