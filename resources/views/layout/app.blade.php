@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
+    {{-- CSS Khusus Halaman Login --}}
     @if (Request::is('login'))
     <style>
         html, body {
@@ -112,34 +113,103 @@
     </style>
     @endif
 
+    {{-- CSS Tambahan Halaman Non-Login --}}
+    @if (!Request::is('login'))
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .navbar-brand span {
+            font-weight: bold;
+            font-size: 1.5rem;
+    }
+
+        .film-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .film-poster {
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .film-info h2 {
+            font-weight: bold;
+        }
+
+        .film-info p {
+            margin-bottom: 8px;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+        }
+
+        .flix {
+        color: #007bff;
+        }
+    </style>
+    @endif
+
     @stack('styles')
 </head>
-<body style="background-color: {{ Request::is('login') ? '#000' : '#f8f9fa' }}; margin: 0; padding: 0;">
+<body style="background-color: {{ Request::is('login') ? '#000' : '#000' }}; margin: 0; padding: 0;">
+
+    @php
+    use App\Models\Watchlist;
+    use Illuminate\Support\Facades\Auth;
+
+    $watchlistCount = 0;
+    if (Auth::check()) {
+        $watchlistCount = Watchlist::where('user_id', Auth::id())->count();
+    }@endphp
 
     {{-- Navbar (hanya jika bukan halaman login) --}}
     @if (!Request::is('login'))
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('dashboard') }}">Cataflix</a>
+                <a class="navbar-brand" href="{{ route('dashboard') }}">
+                    <span>Cata<span class="flix">flix</span></span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        @auth
-                            <li class="nav-item">
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
-                                </form>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Login</a>
-                            </li>
-                        @endauth
-                    </ul>
-                </div>
+    <ul class="navbar-nav ms-auto">
+        @auth
+            <li class="nav-item me-2">
+                <a href="{{ route('watchlist.index') }}" class="btn btn-success btn-sm position-relative">
+                    <i class="bi bi-bookmark-heart"></i> Watchlist
+                    @if ($watchlistCount > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark">
+                            {{ $watchlistCount }}
+                        </span>
+                    @endif
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+                </form>
+            </li>
+        @else
+            <li class="nav-item">
+                <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Login</a>
+            </li>
+        @endauth
+    </ul>
+</div>
+
             </div>
         </nav>
     @endif
@@ -148,15 +218,6 @@
     <main class="{{ Request::is('login') ? '' : 'py-4' }}">
         @yield('content')
     </main>
-
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('sidebarToggle');
-
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')

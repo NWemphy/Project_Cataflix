@@ -7,33 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Film;
 use App\Models\Review;
+use App\Models\Watchlist;
 
 class FilmController extends Controller
 {
-    // Menampilkan semua review untuk film tertentu
-    public function showReviews($id)
-    {
-        $film = Film::with('reviews.user')->findOrFail($id);
-        return view('film.reviews', compact('film'));
-    }
-
-    // Menyimpan review dari pengguna
-    public function storeReview(Request $request, $id)
-    {
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'content' => 'required|string|max:1000',
-        ]);
-
-        Review::create([
-            'user_id' => Auth::id(),
-            'film_id' => $id,
-            'rating' => $request->rating,
-            'content' => $request->content,
-        ]);
-
-        return redirect()->route('film.reviews', $id)->with('success', 'Review berhasil ditambahkan!');
-    }
     public function index()
     {
         $films = Film::all();
@@ -57,7 +34,10 @@ class FilmController extends Controller
         ]);
 
         if ($request->hasFile('poster')) {
-            $data['poster'] = $request->file('poster')->store('posters', 'public');
+            // Simpan poster di folder 'posters' dalam storage/public
+            $path = $request->file('poster')->store('posters', 'public');
+            // Simpan path dengan prefix 'storage/' agar bisa diakses via asset()
+            $data['poster'] = 'storage/' . $path;
         }
 
         Film::create($data);
@@ -80,22 +60,71 @@ class FilmController extends Controller
             'duration' => 'nullable|integer',
         ]);
         if ($request->hasFile('poster')) {
-            if ($film->poster && Storage::disk('public')->exists(str_replace('storage/', '', $film->poster))) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $film->poster));
-            }
-            $path = $request->file('poster')->store('', 'public');
+            $filename = time() . '_' . $request->file('poster')->getClientOriginalName();
+            $path = $request->file('poster')->storeAs('posters', $filename, 'public');
             $data['poster'] = 'storage/' . $path;
-            
         }
         
+
         $film->update($data);
         return redirect()->route('films.index')->with('success', 'Film berhasil diperbarui.');
     }
 
     public function destroy(Film $film)
     {
-        if ($film->poster) Storage::disk('public')->delete($film->poster);
+        // Hapus file poster jika ada
+        if ($film->poster && Storage::disk('public')->exists(str_replace('storage/', '', $film->poster))) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $film->poster));
+        }
+
         $film->delete();
         return redirect()->route('films.index')->with('success', 'Film berhasil dihapus.');
     }
+
+    public function show($id)
+{
+    $film = Film::findOrFail($id);
+    $inWatchlist = false;
+
+    if (Auth::check()) {
+        $inWatchlist = Watchlist::where('user_id', Auth::id())
+                                            ->where('movie_id', $id)
+                                            ->exists();
+    }
+
+    return view('film-detail', [
+        'film' => $film,
+        'inWatchlist' => $inWatchlist
+    ]);
+}
+
+public function storeReview(Request $request, $filmId)
+{
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Login diperlukan untuk memberi review.');
+    }
+
+    // Cek duplikat review
+    $existing = Review::where('user_id', Auth::id())
+                      ->where('film_id', $filmId)
+                      ->first();
+
+    if ($existing) {
+        return redirect()->back()->with('error', 'Kamu sudah memberi review untuk film ini.');
+    }
+
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+        'content' => 'required|string',
+    ]);
+
+    Review::create([
+        'film_id' => $filmId,
+        'user_id' => Auth::id(),
+        'rating' => $request->rating,
+        'content' => $request->content,
+    ]);
+
+    return redirect()->back()->with('success', 'Review berhasil ditambahkan!');
+}
 }

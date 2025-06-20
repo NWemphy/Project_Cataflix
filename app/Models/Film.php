@@ -18,10 +18,6 @@ class Film extends Model
         'director',
         'duration',
     ];
-
-    public function watchHistories() {
-        return $this->hasMany(WatchHistories::class);
-    }
     
     public function watchlists() {
         return $this->hasMany(Watchlist::class);
@@ -31,13 +27,3 @@ class Film extends Model
         return $this->hasMany(Review::class);
     }
 }
-
-// class FilmController extends Controller
-// {
-//     public function show($id)
-//     {
-//         $film = Film::with(['watchlists', 'reviews.user'])->findOrFail($id);
-
-//         return view('films.show', compact('film'));
-//     }
-// }
