@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Film;
 use App\Models\Review;
+use App\Models\Watchlist;
 
 class FilmController extends Controller
 {
@@ -79,4 +80,51 @@ class FilmController extends Controller
         $film->delete();
         return redirect()->route('films.index')->with('success', 'Film berhasil dihapus.');
     }
+
+    public function show($id)
+{
+    $film = Film::findOrFail($id);
+    $inWatchlist = false;
+
+    if (Auth::check()) {
+        $inWatchlist = Watchlist::where('user_id', Auth::id())
+                                            ->where('movie_id', $id)
+                                            ->exists();
+    }
+
+    return view('film-detail', [
+        'film' => $film,
+        'inWatchlist' => $inWatchlist
+    ]);
+}
+
+public function storeReview(Request $request, $filmId)
+{
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Login diperlukan untuk memberi review.');
+    }
+
+    // Cek duplikat review
+    $existing = Review::where('user_id', Auth::id())
+                      ->where('film_id', $filmId)
+                      ->first();
+
+    if ($existing) {
+        return redirect()->back()->with('error', 'Kamu sudah memberi review untuk film ini.');
+    }
+
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+        'content' => 'required|string',
+    ]);
+
+    Review::create([
+        'film_id' => $filmId,
+        'user_id' => Auth::id(),
+        'rating' => $request->rating,
+        'content' => $request->content,
+    ]);
+
+    return redirect()->back()->with('success', 'Review berhasil ditambahkan!');
+}
 }

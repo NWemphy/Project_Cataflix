@@ -28,11 +28,6 @@ class Pengguna extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function watchHistories()
-    {
-        return $this->hasMany(WatchHistories::class);
-    }
-
     public function watchlists()
     {
         return $this->hasMany(Watchlist::class);

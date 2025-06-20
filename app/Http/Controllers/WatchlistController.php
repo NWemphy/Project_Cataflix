@@ -9,45 +9,33 @@ use Illuminate\Support\Facades\Auth;
 
 class WatchlistController extends Controller
 {
+    public function toggle($id)
+    {
+        $userId = Auth::id();
+
+        $existing = Watchlist::where('user_id', $userId)
+                             ->where('movie_id', $id)
+                             ->first();
+
+        if ($existing) {
+            $existing->delete();
+            return redirect()->back()->with('success', 'Film telah dihapus dari watchlist.');
+        } else {
+            Watchlist::create([
+                'user_id' => $userId,
+                'movie_id' => $id,
+            ]);
+            return redirect()->back()->with('success', 'Film telah ditambahkan ke watchlist.');
+        }
+    }
+
     public function index()
     {
-        $watchlists = Watchlist::with('film')
-                               ->where('user_id', Auth::id())
-                               ->get();
+        $watchlist = Watchlist::with('movie')
+                        ->where('user_id', Auth::id())
+                        ->get();
 
-        return view('watchlist.index', compact('watchlists'));
-    }
-
-    public function store($filmId)
-    {
-        $film = Film::findOrFail($filmId);
-
-        $alreadyAdded = Watchlist::where('film_id', $film->id)
-                                 ->where('user_id', Auth::id())
-                                 ->exists();
-
-        if ($alreadyAdded) {
-            return redirect()->back()->with('error', 'Film sudah ada di watchlist.');
-        }
-
-        Watchlist::create([
-            'film_id' => $film->id,
-            'user_id' => Auth::id(),
-        ]);
-
-        return redirect()->back()->with('success', 'Film ditambahkan ke watchlist.');
-    }
-
-    public function destroy($id)
-    {
-        $watchlist = Watchlist::findOrFail($id);
-
-        if ($watchlist->user_id !== Auth::id()) {
-            return redirect()->back()->with('error', 'Tidak diizinkan menghapus.');
-        }
-
-        $watchlist->delete();
-
-        return redirect()->route('watchlist.index')->with('success', 'Film dihapus dari watchlist.');
+        return view('index', compact('watchlist'));
     }
 }
+

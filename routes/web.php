@@ -13,6 +13,7 @@ use App\Http\Controllers\WatchlistController;
 use App\Http\Controllers\FilmController;
 
 
+
 // =====================
 // Halaman Utama (Public)
 // =====================
@@ -44,13 +45,8 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     // Detail film
-    Route::get('/film/{id}', function ($id) {
-        $film = Film::find($id);
-        if (!$film) {
-            abort(404);
-        }
-        return view('film-detail', ['film' => $film]);
-    })->name('film.detail');
+    
+Route::get('/film/{id}', [FilmController::class, 'show'])->name('film.detail');});
 
 // REVIEW
 Route::post('/films/{film}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
@@ -61,7 +57,7 @@ Route::get('/watchlist', [WatchlistController::class, 'index'])->middleware('aut
 Route::post('/watchlist/{film}', [WatchlistController::class, 'store'])->middleware('auth')->name('watchlist.store');
 Route::delete('/watchlist/{id}', [WatchlistController::class, 'destroy'])->middleware('auth')->name('watchlist.destroy');
 
-});
+
 
 // =====================
 // Resource: Pengguna
@@ -86,4 +82,17 @@ Route::middleware(['auth'])->group(function () {
     ], function () {
         Route::resource('films', FilmController::class);
     });
+});
+
+Route::post('/film/{id}/review', [ReviewController::class, 'submit'])
+    ->middleware('auth')
+    ->name('review.submit');
+
+Route::post('/film/{id}/review', [FilmController::class, 'storeReview'])->middleware('auth')->name('review.submit');
+
+Route::post('/watchlist/toggle/{id}', [WatchlistController::class, 'toggle'])->name('watchlist.toggle')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist.index');
+    Route::post('/watchlist/toggle/{id}', [WatchlistController::class, 'toggle'])->name('watchlist.toggle');
 });

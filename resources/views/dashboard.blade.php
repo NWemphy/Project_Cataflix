@@ -53,7 +53,14 @@
         justify-content: space-between;
     }
 </style>
+    @php
+        use App\Models\Watchlist;
+        use Illuminate\Support\Facades\Auth;
 
+        $watchlistCount = 0;
+        if (Auth::check()) {
+            $watchlistCount = Watchlist::where('user_id', Auth::id())->count();
+        }@endphp
 <!-- Navbar -->
 <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: #141414;">
     <div class="container-fluid">
@@ -65,10 +72,18 @@
         <form method="GET" action="{{ route('search') }}" class="form-inline mx-auto search-form d-none d-sm-block">
             <input name="query" type="search" class="form-control search-bar" placeholder="Search" />
         </form>
-
+        
         <div class="ml-auto d-flex align-items-center gap-3">
             @auth
                 <span class="me-2 d-none d-md-inline">Hi, {{ Auth::user()->name }}</span>
+                <a href="{{ route('watchlist.index') }}" class="btn btn-success btn-sm position-relative">
+                    <i class="bi bi-bookmark-heart"></i> Watchlist
+                    @if ($watchlistCount > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark">
+                            {{ $watchlistCount }}
+                        </span>
+                    @endif
+                </a>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-sm">Logout</button>
@@ -105,11 +120,11 @@
                     <div class="card-body text-white">
                         <h5 class="fw-bold mb-1">{{ $film['title'] }}</h5>
                         <div class="mb-2 text-warning">
-                            ★★★★☆ <span class="text-white ms-1 small">({{ rand(70, 95)/10 }}/10)</span>
+                            <span class="text-white ms-1">({{ $film->year }})</span>
                         </div>
                         <p class="small text-muted mb-1"><strong>Durasi:</strong> {{ $film['duration'] }} menit</p>
                         <p class="small text-muted mb-2"><strong>Genre:</strong> {{ $film['genre'] ?? 'Family' }}</p>
-                        <a href="{{ route('film.detail', ['id' => $id]) }}" class="btn btn-outline-light btn-sm w-100 mt-auto">Lihat Detail</a>
+                        <a href="{{ route('film.detail', ['id' => $id+1]) }}" class="btn btn-outline-light btn-sm w-100 mt-auto">Lihat Detail</a>
                     </div>
                 </div>
             </div>
